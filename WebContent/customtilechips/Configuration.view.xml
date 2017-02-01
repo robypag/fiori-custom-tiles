@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright (c) 2009-2014 SAP SE, All Rights Reserved -->
+<core:View
+  controllerName="customtilechips.Configuration"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:form="sap.ui.layout.form"
+  xmlns:layout="sap.ui.layout"
+  xmlns:table="sap.ui.table"
+  xmlns:clayout="sap.ui.commons.layout"
+  xmlns:common="sap.ui.commons"
+>
+<MessageStrip id="messageStrip" showIcon="true" showCloseButton="false" visible="false"/>
+<form:SimpleForm id="configuration" maxContainerCols="8" minWidth="1024" editable="true">
+  <form:content>
+    <core:Title id="categoryCommon"
+      text="{i18n>configuration.category.general}"></core:Title>
+    <Label text="{i18n>configuration.display_title_text}"></Label>
+    <Input id="titleInput" value="{/config/display_title_text}" width="100%"
+      tooltip="{i18n>configuration.display_title_text.tooltip}" enabled="{/config/editable}"
+      editable="{/config/isLocaleSuitable}" />
+    <Label text="{i18n>configuration.display_subtitle_text}"></Label>
+    <Input id="subtitleInput" value="{/config/display_subtitle_text}" enabled="{/config/editable}"
+      tooltip="{i18n>configuration.display_subtitle_text.tooltip}"
+      editable="{/config/isLocaleSuitable}" />
+    <Label text="{i18n>configuration.keywords}"></Label>
+    <Input id="keywordsInput" value="{/config/display_search_keywords}" enabled="{/config/editable}" width="100%"
+      tooltip="{i18n>configuration.keywords.tooltip}"
+      editable="{/config/isLocaleSuitable}" />
+    <Label text="{i18n>configuration.display_icon_url}"></Label>
+    <Input id="iconInput" value="{/config/display_icon_url}" enabled="{/config/editable}"
+      placeholder="sap-icon://inbox" tooltip="{i18n>configuration.display_icon_url.tooltip}"
+      liveChange="onConfigurationInputChange" valueHelpRequest="onIconValueHelpRequest" showValueHelp="true" />
+
+    <Label text="{i18n>configuration.display_info_text}"></Label>
+    <Input id="infoInput" value="{/config/display_info_text}" width="100%" enabled="{/config/editable}"
+      tooltip="{i18n>configuration.display_info_text.tooltip}"
+      editable="{/config/isLocaleSuitable}" />
+    <Label text="{i18n>configuration.display_number_unit}"></Label>
+    <Input id="number_unitInput" value="{/config/display_number_unit}" width="100%" enabled="{/config/editable}"
+      tooltip="{i18n>configuration.display_number_unit.tooltip}"/>
+
+    <core:Title id="categoryDynamicData"
+      text="{i18n>configuration.category.dynamic_data}"></core:Title>
+    <Label text="{i18n>configuration.service_url}"></Label>
+    <Input id="serviceUrlInput" value="{/config/service_url}" width="100%" enabled="{/config/editable}"
+       tooltip="{i18n>configuration.service_url.tooltip}"/>
+    <Label text="{i18n>configuration.service_refresh_interval}"></Label>
+    <Input id="refreshInput" value="{/config/service_refresh_interval}" type="Number" enabled="{/config/editable}"
+      width="6em" placeholder="{i18n>configuration.seconds}"
+      tooltip="{i18n>configuration.seconds.tooltip}"
+      />
+
+    <core:Title id="categoryNavigation"
+      text="{i18n>configuration.category.navigation}"></core:Title>
+    <Label text="{i18n>configuration.navigation_use_semantic_object}"></Label>
+    <CheckBox id="useLpdCheckbox" selected="{/config/navigation_use_semantic_object}" select="onCheckBoxChange"
+      tooltip="{i18n>configuration.navigation_use_semantic_object.tooltip}" enabled="{/config/editable}"/> 
+    <Label text="{i18n>configuration.semantic_object}"></Label>
+    <Input id="navigation_semantic_objectInput" width="100%" tooltip="{i18n>configuration.semantic_object.tooltip}" maxLength="30"
+        liveChange="onConfigurationInputChange" valueHelpRequest="onValueHelpRequest" showValueHelp="true" showSuggestion="true"
+        enabled="{= ${/enabled} &amp;&amp; ${/config/editable}}" value="{/value}" />
+    <Label text="{i18n>configuration.navigation_semantic_action}"></Label>
+    <Input id="navigation_semantic_actionInput" value="{/config/navigation_semantic_action}" width="100%" maxLength="50"
+      enabled="{= ${/config/navigation_use_semantic_object} &amp;&amp; ${/config/editable}}" tooltip="{i18n>configuration.navigation_semantic_action.tooltip}"
+      liveChange="onConfigurationInputChange" valueHelpRequest="onActionValueHelpRequest" showValueHelp="true" showSuggestion="true"/>
+    <Label text="{i18n>configuration.navigation_semantic_parameters}"></Label>
+    <Input id="navigation_semantic_parametersInput" value="{/config/navigation_semantic_parameters}" width="100%"
+      enabled="{= ${/config/navigation_use_semantic_object} &amp;&amp; ${/config/editable}}" tooltip="{i18n>configuration.navigation_semantic_parameters.tooltip}"/>
+    <Label text="{i18n>configuration.navigation_target_url}"></Label>
+    <Input id="targetUrl" value="{/config/navigation_target_url}" type="Url" width="100%"
+       tooltip="{i18n>configuration.navigation_target_url.tooltip}"/>
+
+    <core:Title id="categoryTileActions"
+      text="{i18n>configuration.category.tile_actions}"></core:Title>
+    <table:Table id="tileActions"
+      rows="{/config/tile_actions_rows}"
+      selectionBehavior="Row"
+      selectionMode="Multi"
+      visibleRowCount="3"
+      enableColumnReordering="false"
+      rowHeight="30px"
+      >
+      <table:Column id="menuItem" width="80px" tooltip="{i18n>configuration.tile_actions.table.menu_item_tooltip}">
+        <Label text="{i18n>configuration.tile_actions.table.menu_item}"/>
+        <table:template>
+          <common:TextField value="{menu_title}" enabled="{editable}" valueState="{valueState}"></common:TextField>
+        </table:template>
+      </table:Column>
+
+      <table:Column id="targetType" width="85px" tooltip="{i18n>configuration.tile_actions.table.target_type_tooltip}">
+        <Label text="{i18n>configuration.tile_actions.table.target_type}"/>
+        <table:template>
+          <common:ComboBox id="targetTypeCB" value="{target_type}" enabled="{editable}" change="handleTargetTypeChange"></common:ComboBox>
+        </table:template>
+      </table:Column>
+
+      <table:Column id="navigationTarget" width="162px" tooltip="{i18n>configuration.tile_actions.table.navigation_target_tooltip}">
+        <Label text="{i18n>configuration.tile_actions.table.navigation_target}"/>
+        <table:template>
+          <Input liveChange="onConfigurationInputChange" valueHelpRequest="onTileActionValueHelp" showValueHelp="{isTargetTypeIntent}"
+            showSuggestion="{isTargetTypeIntent}" value="{navigation_target}" enabled="{editable}"/>
+        </table:template>
+      </table:Column>
+
+      <table:Column id="action" width="85px" tooltip="{i18n>configuration.tile_actions.table.action_tooltip}">
+        <Label text="{i18n>configuration.tile_actions.table.action}"/>
+        <table:template>
+          <common:TextField value="{action}" enabled="{isTargetTypeIntent}"></common:TextField>
+        </table:template>
+      </table:Column>
+
+      <table:Column id="icon" width="110px" tooltip="{i18n>configuration.tile_actions.table.icon_tooltip}">
+        <Label text="{i18n>configuration.tile_actions.table.icon}"/>
+        <table:template>
+          <Input value="{icon}" placeholder="sap-icon://inbox" enabled="{/config/editable}"
+            liveChange="onConfigurationInputChange" valueHelpRequest="onTileActionIconValueHelp" showValueHelp="true" />
+        </table:template>
+      </table:Column>
+    </table:Table>
+    <Label/>
+
+    <clayout:MatrixLayout>
+      <clayout:MatrixLayoutRow>
+        <clayout:MatrixLayoutCell hAlign="End">
+          <common:Button id="addRow" text="{i18n>configuration.tile_actions.table.add}" enabled="{/config/editable}" tooltip="{i18n>configuration.tile_actions.table.add_tooltip}" press="addRow" width="100px"/>
+          <common:Button id="deleteRow" text="{i18n>configuration.tile_actions.table.remove}" enabled="{/config/editable}" tooltip="{i18n>configuration.tile_actions.table.remove_tooltip}" press="deleteRow" width="100px"/>
+        </clayout:MatrixLayoutCell>
+      </clayout:MatrixLayoutRow>
+    </clayout:MatrixLayout>
+
+  </form:content>
+</form:SimpleForm>
+
+   <HBox visible="false">
+    <Dialog id="selectIconDialog" leftButton="ok" rightButton="cancel" title="{i18n>configuration.select_icon}">
+      <content>
+        <layout:ResponsiveFlowLayout id="icons" />
+        <HBox visible="true">
+          <Button id="ok" enabled="{/config/ok.enabled}" text="{i18n>configuration.ok}"/>
+          <Button id="cancel" text="{i18n>configuration.cancel}" press="onSelectIconClose"/>
+        </HBox>
+      </content>
+    </Dialog>
+   </HBox>
+</core:View>

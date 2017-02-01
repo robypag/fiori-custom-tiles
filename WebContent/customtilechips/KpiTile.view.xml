@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:View 
+		xmlns="sap.suite.ui.commons" 
+		xmlns:ui="sap.suite.ui.microchart" 
+		xmlns:core="sap.ui.core" 
+		controllerName="customtilechips.KpiTile">
+		
+     <GenericTile 
+  	 	id="kpiTile"
+	 	press="onPress" 
+	 	header="{/config/display_title_text}" 
+	 	subheader="{/config/display_subtitle_text}" 
+	 	frameType="TwoByOne">
+        <tileContent>
+        	<TileContent footer="{/config/display_info_text}">
+            	<content>
+                	<ui:ComparisonMicroChart scale="M">
+						<ui:data>
+							<ui:ComparisonMicroChartData title="{/data/emp/month1}" value="{/data/emp/value1}" color="{/data/emp/color1}" />
+							<ui:ComparisonMicroChartData title="{/data/emp/month2}" value="{/data/emp/value2}" color="{/data/emp/color2}" />
+							<ui:ComparisonMicroChartData title="{/data/emp/month3}" value="{/data/emp/value3}" color="{/data/emp/color3}" />
+						</ui:data>
+					</ui:ComparisonMicroChart>
+				</content>
+			</TileContent>
+		</tileContent>
+	</GenericTile>
+	
+</core:View>

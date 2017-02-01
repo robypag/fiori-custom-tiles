@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chip xmlns="http://schemas.sap.com/sapui2/services/Chip/1">
+    <implementation>
+        <sapui5>
+            <viewName>customtilechips.KpiTile.view.xml</viewName>
+        </sapui5>
+    </implementation>
+    <appearance>
+        <title>Dynamic Applauncher with Microchart</title>
+        <description>Dynamic KPI Applauncher Chip</description>
+    </appearance>
+    <contracts>
+        <consume id="configuration">
+            <parameters>
+                <parameter name="tileConfiguration"></parameter>
+            </parameters>
+        </consume>
+        <consume id="preview" />
+        <consume id="writeConfiguration" />
+        <consume id="configurationUi" />
+        <consume id="search" />
+        <consume id="refresh" />
+        <consume id="visible" />
+        <consume id="bag" />
+        <consume id="url" />
+        <consume id="actions" />
+        <consume id="types">
+            <parameters>
+                <parameter name="supportedTypes">tile</parameter>
+            </parameters>
+        </consume>
+    </contracts>
+</chip>
